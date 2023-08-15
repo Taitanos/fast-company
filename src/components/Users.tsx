@@ -1,31 +1,31 @@
-import React, {useState} from "react";
-import api from "../api";
+import React from "react";
 
+type UsersType = {
+    _id: string
+    name: string
+    profession: { _id: string; name: string; }
+    qualities: { _id: string; name: string; color: string; }[]
+    completedMeetings: number
+    rate: number;
+    bookmark: boolean
+} []
 
-function Users() {
+type PropsType = {
+    handleDelete: (usersId: string) => void
+    renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
+    users: UsersType
+}
 
-    const [users, setUsers] = useState(api.users.fetchAll());
-
-    const handleDelete = (usersId: string) => {
-        setUsers(users.filter((user) => user._id !== usersId))
-    }
-
-    const renderPhase = (number: number) => {
-        const lastOne = Number(number.toString().slice(-1))
-        if (number > 4 && number < 15) return "человек тусанет"
-        if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанет"
-        if (lastOne === 1) return "человек тусанет"
-        return "человек тусанет"
-    }
+function Users(props:PropsType) {
 
     return (
         <>
             <h2>
-                <span className={"badge bg-" + (users.length > 0 ? "primary" : "danger")}>
-                    {users.length > 0 ? `${users.length} ${renderPhase(users.length)} с тобой сегодня` : "Никто с тобой не тусанет"}
+                <span className={"badge bg-" + (props.users.length > 0 ? "primary" : "danger")}>
+                    {props.users.length > 0 ? `${props.users.length} ${props.renderPhase(props.users.length)} с тобой сегодня` : "Никто с тобой не тусанет"}
                 </span>
             </h2>
-            {users.length > 0 && (
+            {props.users.length > 0 && (
                 <table className="table">
                     <thead>
                     <tr>
@@ -38,7 +38,7 @@ function Users() {
                     </tr>
                     </thead>
                     <tbody>
-                    {users.map((user) => (
+                    {props.users.map((user) => (
                         <tr key={user._id}>
                             <td>{user.name}</td>
                             <td>{user.qualities.map(item => <span className={"badge m-1 bg-" + item.color}
@@ -47,7 +47,7 @@ function Users() {
                             <td>{user.completedMeetings}</td>
                             <td>{user.rate}</td>
                             <td>
-                                <button className={"btn btn-danger"} onClick={() => handleDelete(user._id)}>Удалить
+                                <button className={"btn btn-danger"} onClick={() => props.handleDelete(user._id)}>Удалить
                                 </button>
                             </td>
                         </tr>
