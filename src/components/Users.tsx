@@ -1,12 +1,20 @@
 import React from "react";
+import User from "./User";
 
 type UsersType = {
     _id: string
     name: string
-    profession: { _id: string; name: string; }
-    qualities: { _id: string; name: string; color: string; }[]
+    profession: {
+        _id: string
+        name: string
+    }
+    qualities: {
+        _id: string
+        name: string
+        color: string
+    }[]
     completedMeetings: number
-    rate: number;
+    rate: number
     bookmark: boolean
 } []
 
@@ -39,18 +47,7 @@ function Users(props:PropsType) {
                     </thead>
                     <tbody>
                     {props.users.map((user) => (
-                        <tr key={user._id}>
-                            <td>{user.name}</td>
-                            <td>{user.qualities.map(item => <span className={"badge m-1 bg-" + item.color}
-                                                                  key={item._id}>{item.name}</span>)}</td>
-                            <td>{user.profession.name}</td>
-                            <td>{user.completedMeetings}</td>
-                            <td>{user.rate}</td>
-                            <td>
-                                <button className={"btn btn-danger"} onClick={() => props.handleDelete(user._id)}>Удалить
-                                </button>
-                            </td>
-                        </tr>
+                        <User user={user} handleDelete={props.handleDelete}/>
                     ))}
                     </tbody>
                 </table>
