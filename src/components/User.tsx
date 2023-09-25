@@ -1,6 +1,7 @@
 import React from "react";
+import Qualities from "./Qualities";
 
-type UserType = {
+export type UserType = {
     _id: string
     name: string
     profession: {
@@ -20,6 +21,7 @@ type UserType = {
 type PropsType = {
     user: UserType
     handleDelete: (usersId: string) => void
+    handleBookmark: (boolean: boolean) => void
 }
 
 function User (props:PropsType) {
@@ -27,11 +29,13 @@ function User (props:PropsType) {
         <>
             <tr key={props.user._id}>
                 <td>{props.user.name}</td>
-                <td>{props.user.qualities.map(item => <span className={"badge m-1 bg-" + item.color}
-                                                      key={item._id}>{item.name}</span>)}</td>
+                <td><Qualities qualities={props.user.qualities}/></td>
                 <td>{props.user.profession.name}</td>
                 <td>{props.user.completedMeetings}</td>
                 <td>{props.user.rate}</td>
+                <td>
+                    <i className="bi bi-bookmark" ></i>
+                </td>
                 <td>
                     <button className={"btn btn-danger"} onClick={() => props.handleDelete(props.user._id)}>Удалить
                     </button>

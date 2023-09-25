@@ -4,10 +4,15 @@ import Users from "./components/Users";
 
 function App() {
 
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState(api.users.fetchAll())
+    const [bookmark, setBookmark] = useState(false)
 
     const handleDelete = (usersId: string) => {
         setUsers(users.filter((user) => user._id !== usersId))
+    }
+
+    const handleBookmark = () => {
+        setBookmark (!bookmark);
     }
 
     const renderPhase = (number: number) => {
@@ -21,7 +26,7 @@ function App() {
 
     return (
         <div>
-            <Users handleDelete={handleDelete} renderPhase={renderPhase} users={users}/>
+            <Users handleDelete={handleDelete} renderPhase={renderPhase} handleBookmark={handleBookmark} users={users}/>
         </div>
     )
 }

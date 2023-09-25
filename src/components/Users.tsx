@@ -1,5 +1,6 @@
 import React from "react";
 import User from "./User";
+import SearchStatus from "./SearchStatus";
 
 type UsersType = {
     _id: string
@@ -21,6 +22,7 @@ type UsersType = {
 type PropsType = {
     handleDelete: (usersId: string) => void
     renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
+    handleBookmark: (boolean:boolean) => void
     users: UsersType
 }
 
@@ -28,11 +30,7 @@ function Users(props:PropsType) {
 
     return (
         <>
-            <h2>
-                <span className={"badge bg-" + (props.users.length > 0 ? "primary" : "danger")}>
-                    {props.users.length > 0 ? `${props.users.length} ${props.renderPhase(props.users.length)} с тобой сегодня` : "Никто с тобой не тусанет"}
-                </span>
-            </h2>
+            <SearchStatus length={props.users.length} renderPhase={props.renderPhase}/>
             {props.users.length > 0 && (
                 <table className="table">
                     <thead>
@@ -47,7 +45,7 @@ function Users(props:PropsType) {
                     </thead>
                     <tbody>
                     {props.users.map((user) => (
-                        <User user={user} handleDelete={props.handleDelete}/>
+                        <User user={user} handleDelete={props.handleDelete} handleBookmark={props.handleBookmark}/>
                     ))}
                     </tbody>
                 </table>
