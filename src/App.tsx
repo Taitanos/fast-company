@@ -1,18 +1,25 @@
 import React, {useState} from "react";
 import api from "./api";
 import Users from "./components/Users";
+import SearchStatus from "./components/SearchStatus";
 
 function App() {
 
     const [users, setUsers] = useState(api.users.fetchAll())
-    const [bookmark, setBookmark] = useState(false)
 
     const handleDelete = (usersId: string) => {
         setUsers(users.filter((user) => user._id !== usersId))
     }
 
-    const handleBookmark = () => {
-        setBookmark (!bookmark);
+    const handleBookmark = (usersId: string) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === usersId) {
+                    return {...user, bookmark: !user.bookmark}
+                }
+                return user
+            })
+        )
     }
 
     const renderPhase = (number: number) => {
@@ -26,6 +33,7 @@ function App() {
 
     return (
         <div>
+            <SearchStatus length={users.length} renderPhase={renderPhase}/>
             <Users handleDelete={handleDelete} renderPhase={renderPhase} handleBookmark={handleBookmark} users={users}/>
         </div>
     )

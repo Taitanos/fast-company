@@ -1,6 +1,5 @@
 import React from "react";
 import User from "./User";
-import SearchStatus from "./SearchStatus";
 
 type UsersType = {
     _id: string
@@ -22,7 +21,7 @@ type UsersType = {
 type PropsType = {
     handleDelete: (usersId: string) => void
     renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
-    handleBookmark: (boolean:boolean) => void
+    handleBookmark: (usersId: string) => void
     users: UsersType
 }
 
@@ -30,7 +29,7 @@ function Users(props:PropsType) {
 
     return (
         <>
-            <SearchStatus length={props.users.length} renderPhase={props.renderPhase}/>
+
             {props.users.length > 0 && (
                 <table className="table">
                     <thead>

@@ -1,5 +1,6 @@
 import React from "react";
-import Qualities from "./Qualities";
+import Bookmark from "./Bookmark";
+import Qualitie from "./Qualitie";
 
 export type UserType = {
     _id: string
@@ -15,13 +16,13 @@ export type UserType = {
     }[]
     completedMeetings: number
     rate: number
-    bookmark: boolean
+    bookmark:boolean
 }
 
 type PropsType = {
     user: UserType
     handleDelete: (usersId: string) => void
-    handleBookmark: (boolean: boolean) => void
+    handleBookmark: (usersId: string) => void
 }
 
 function User (props:PropsType) {
@@ -29,13 +30,18 @@ function User (props:PropsType) {
         <>
             <tr key={props.user._id}>
                 <td>{props.user.name}</td>
-                <td><Qualities qualities={props.user.qualities}/></td>
+                <td>
+                    {props.user.qualities.map(qual => (
+                        <Qualitie key={qual._id} qualName={qual.name} qualColor={qual.color}/>
+                        ))}
+                    </td>
                 <td>{props.user.profession.name}</td>
                 <td>{props.user.completedMeetings}</td>
                 <td>{props.user.rate}</td>
-                <td>
-                    <i className="bi bi-bookmark" ></i>
-                </td>
+                <td><Bookmark
+                    status={props.user.bookmark}
+                    handleBookmark={()=> props.handleBookmark (props.user._id)}
+                    /></td>
                 <td>
                     <button className={"btn btn-danger"} onClick={() => props.handleDelete(props.user._id)}>Удалить
                     </button>
