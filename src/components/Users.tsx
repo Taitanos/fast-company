@@ -1,31 +1,51 @@
 import React, {useState} from "react";
-import api from "../api";
+import User from "./User";
+import Pagination from "./Pagination";
+import {paginate} from "../utils/paginate";
 
+type ProfessionalType = {
+    _id: string
+    name: string
+}
 
-function Users() {
+type QualitieType = {
+    _id: string
+    name: string
+    color: string
+}
 
-    const [users, setUsers] = useState(api.users.fetchAll());
+export type UserType = {
+    _id: string
+    name: string
+    profession: ProfessionalType
+    qualities: QualitieType[]
+    completedMeetings: number
+    rate: number
+    bookmark: boolean
+}
 
-    const handleDelete = (usersId: string) => {
-        setUsers(users.filter((user) => user._id !== usersId))
+type PropsType = {
+    handleDelete: (usersId: string) => void
+    renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
+    handleBookmark: (usersId: string) => void
+    users: UserType[]
+}
+
+function Users(props:PropsType) {
+
+    const [currentPage, setCurrentPage] = useState<number> (1)
+
+    const count = props.users.length
+    const pageSize = 4
+    const handlePageChange = (pageIndex:number) => {
+        console.log("page", pageIndex)
+        setCurrentPage(pageIndex)
     }
-
-    const renderPhase = (number: number) => {
-        const lastOne = Number(number.toString().slice(-1))
-        if (number > 4 && number < 15) return "человек тусанет"
-        if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанет"
-        if (lastOne === 1) return "человек тусанет"
-        return "человек тусанет"
-    }
+    const users = paginate(props.users, currentPage, pageSize)
 
     return (
         <>
-            <h2>
-                <span className={"badge bg-" + (users.length > 0 ? "primary" : "danger")}>
-                    {users.length > 0 ? `${users.length} ${renderPhase(users.length)} с тобой сегодня` : "Никто с тобой не тусанет"}
-                </span>
-            </h2>
-            {users.length > 0 && (
+            {count > 0 && (
                 <table className="table">
                     <thead>
                     <tr>
@@ -39,22 +59,12 @@ function Users() {
                     </thead>
                     <tbody>
                     {users.map((user) => (
-                        <tr key={user._id}>
-                            <td>{user.name}</td>
-                            <td>{user.qualities.map(item => <span className={"badge m-1 bg-" + item.color}
-                                                                  key={item._id}>{item.name}</span>)}</td>
-                            <td>{user.profession.name}</td>
-                            <td>{user.completedMeetings}</td>
-                            <td>{user.rate}</td>
-                            <td>
-                                <button className={"btn btn-danger"} onClick={() => handleDelete(user._id)}>Удалить
-                                </button>
-                            </td>
-                        </tr>
+                        <User user={user} onDelete={props.handleDelete} onChangeBookmark={props.handleBookmark}/>
                     ))}
                     </tbody>
                 </table>
             )}
+            <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage} onPageChange={handlePageChange}/>
         </>
     )
 }
