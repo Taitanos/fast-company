@@ -1,36 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import User from "./User";
+import Pagination from "./Pagination";
+import {paginate} from "../utils/paginate";
 
-type UsersType = {
+type ProfessionalType = {
     _id: string
     name: string
-    profession: {
-        _id: string
-        name: string
-    }
-    qualities: {
-        _id: string
-        name: string
-        color: string
-    }[]
+}
+
+type QualitieType = {
+    _id: string
+    name: string
+    color: string
+}
+
+export type UserType = {
+    _id: string
+    name: string
+    profession: ProfessionalType
+    qualities: QualitieType[]
     completedMeetings: number
     rate: number
     bookmark: boolean
-} []
+}
 
 type PropsType = {
     handleDelete: (usersId: string) => void
     renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
     handleBookmark: (usersId: string) => void
-    users: UsersType
+    users: UserType[]
 }
 
 function Users(props:PropsType) {
 
+    const [currentPage, setCurrentPage] = useState<number> (1)
+
+    const count = props.users.length
+    const pageSize = 4
+    const handlePageChange = (pageIndex:number) => {
+        console.log("page", pageIndex)
+        setCurrentPage(pageIndex)
+    }
+    const users = paginate(props.users, currentPage, pageSize)
+
     return (
         <>
-
-            {props.users.length > 0 && (
+            {count > 0 && (
                 <table className="table">
                     <thead>
                     <tr>
@@ -43,12 +58,13 @@ function Users(props:PropsType) {
                     </tr>
                     </thead>
                     <tbody>
-                    {props.users.map((user) => (
-                        <User user={user} handleDelete={props.handleDelete} handleBookmark={props.handleBookmark}/>
+                    {users.map((user) => (
+                        <User user={user} onDelete={props.handleDelete} onChangeBookmark={props.handleBookmark}/>
                     ))}
                     </tbody>
                 </table>
             )}
+            <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage} onPageChange={handlePageChange}/>
         </>
     )
 }

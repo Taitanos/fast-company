@@ -1,28 +1,13 @@
 import React from "react";
 import Bookmark from "./Bookmark";
 import Qualitie from "./Qualitie";
+import {UserType} from "./Users";
 
-export type UserType = {
-    _id: string
-    name: string
-    profession: {
-        _id: string
-        name: string
-    }
-    qualities: {
-        _id: string
-        name: string
-        color: string
-    }[]
-    completedMeetings: number
-    rate: number
-    bookmark:boolean
-}
 
 type PropsType = {
     user: UserType
-    handleDelete: (usersId: string) => void
-    handleBookmark: (usersId: string) => void
+    onDelete: (usersId: string) => void
+    onChangeBookmark: (usersId: string) => void
 }
 
 function User (props:PropsType) {
@@ -40,10 +25,10 @@ function User (props:PropsType) {
                 <td>{props.user.rate}</td>
                 <td><Bookmark
                     status={props.user.bookmark}
-                    handleBookmark={()=> props.handleBookmark (props.user._id)}
+                    handleBookmark={()=> props.onChangeBookmark (props.user._id)}
                     /></td>
                 <td>
-                    <button className={"btn btn-danger"} onClick={() => props.handleDelete(props.user._id)}>Удалить
+                    <button className={"btn btn-danger"} onClick={() => props.onDelete(props.user._id)}>Удалить
                     </button>
                 </td>
             </tr>
