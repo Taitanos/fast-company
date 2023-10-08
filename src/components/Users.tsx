@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import User from "./User";
+import api from "../api";
 import Pagination from "./Pagination";
 import {paginate} from "../utils/paginate";
+import GroupList from "./GroupList";
 
 type ProfessionalType = {
     _id: string
@@ -31,20 +33,34 @@ type PropsType = {
     users: UserType[]
 }
 
-function Users(props:PropsType) {
+function Users(props: PropsType) {
 
-    const [currentPage, setCurrentPage] = useState<number> (1)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [professions, setProfessions] = useState()
 
     const count = props.users.length
     const pageSize = 4
-    const handlePageChange = (pageIndex:number) => {
-        console.log("page", pageIndex)
+
+    useEffect(() => {
+        api.professions.fetchAll().then((data) => setProfessions(data))
+    }, [])
+
+    const handleProfessionSelect = () => {
+
+    }
+
+    const handlePageChange = (pageIndex: number) => {
         setCurrentPage(pageIndex)
     }
     const users = paginate(props.users, currentPage, pageSize)
 
     return (
         <>
+            {professions && <GroupList items={professions}
+                                       onItemSelect={handleProfessionSelect}
+                                       valueProperty={"_id"}
+                                       contentProperty={"name"}
+            />}
             {count > 0 && (
                 <table className="table">
                     <thead>
@@ -64,7 +80,8 @@ function Users(props:PropsType) {
                     </tbody>
                 </table>
             )}
-            <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage} onPageChange={handlePageChange}/>
+            <Pagination itemsCount={count} pageSize={pageSize} currentPage={currentPage}
+                        onPageChange={handlePageChange}/>
         </>
     )
 }
