@@ -8,9 +8,8 @@ type PropsType = {
     onPageChange: (pageIndex: number) => void
 }
 
-function Pagination(props: PropsType) {
+function Pagination({itemsCount, pageSize, currentPage, onPageChange}: PropsType) {
 
-    const {itemsCount, pageSize} = props
     const pageCount = Math.ceil(itemsCount / pageSize)
     const pages = _.range(1, pageCount + 1)
 
@@ -20,8 +19,8 @@ function Pagination(props: PropsType) {
         <nav>
             <ul className={"pagination"}>
                 {pages.map((page) => (
-                    <li className={"page-item " + (page === props.currentPage ? "active" : "")} key={page}>
-                        <a className={"page-link"} onClick={() => props.onPageChange(page)}>{page}</a>
+                    <li className={"page-item " + (page === currentPage ? "active" : "")} key={page}>
+                        <a className={"page-link"} onClick={() => onPageChange(page)}>{page}</a>
                     </li>
                 ))}
             </ul>

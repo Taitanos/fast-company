@@ -28,17 +28,16 @@ export type UserType = {
 
 type PropsType = {
     handleDelete: (usersId: string) => void
-    renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
     handleBookmark: (usersId: string) => void
-    users: UserType[]
+    usersAll: UserType[]
 }
 
-function Users(props: PropsType) {
+function Users({handleDelete, handleBookmark, usersAll}: PropsType) {
 
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [professions, setProfessions] = useState()
 
-    const count = props.users.length
+    const count = usersAll.length
     const pageSize = 4
 
     useEffect(() => {
@@ -52,7 +51,7 @@ function Users(props: PropsType) {
     const handlePageChange = (pageIndex: number) => {
         setCurrentPage(pageIndex)
     }
-    const users = paginate(props.users, currentPage, pageSize)
+    const users = paginate(usersAll, currentPage, pageSize)
 
     return (
         <>
@@ -75,7 +74,7 @@ function Users(props: PropsType) {
                     </thead>
                     <tbody>
                     {users.map((user) => (
-                        <User user={user} onDelete={props.handleDelete} onChangeBookmark={props.handleBookmark}/>
+                        <User user={user} onDelete={handleDelete} onChangeBookmark={handleBookmark}/>
                     ))}
                     </tbody>
                 </table>

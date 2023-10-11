@@ -7,15 +7,15 @@ type PropsType = {
     contentProperty: string
 }
 
-function GroupList(props: PropsType) {
-    console.log(Object.keys(props.items))
+function GroupList({items, onItemSelect, valueProperty, contentProperty}: PropsType) {
+    console.log(Object.keys(items))
     return (
         <ul className={"list-group"}>
-            {Object.keys(props.items).map((item) => (
+            {Object.keys(items).map((item) => (
                 <li
-                    key={props.items[item][valueProperty]}
+                    key={items[item][valueProperty]}
                     className={"list-group-item"}>
-                    {props.items[item][contentProperty]}
+                    {items[item][contentProperty]}
                 </li>
             ))}
         </ul>

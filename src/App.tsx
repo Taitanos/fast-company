@@ -34,7 +34,7 @@ function App() {
     return (
         <div>
             <SearchStatus length={users.length} renderPhase={renderPhase}/>
-            <Users handleDelete={handleDelete} renderPhase={renderPhase} handleBookmark={handleBookmark} users={users}/>
+            <Users handleDelete={handleDelete} handleBookmark={handleBookmark} usersAll={users}/>
         </div>
     )
 }
