@@ -1,6 +1,47 @@
-import {professions} from "./professions.api";
+import {professionsObject as professions} from "./professions.api";
 
-const qualities = {
+export type ProfessionType = {
+    [key: string]: string
+    _id: string
+    name: string
+}
+
+export type ProfessionsTypeObject = {
+    [key: string]: ProfessionType
+    doctor: ProfessionType
+    waiter: ProfessionType
+    physics: ProfessionType
+    engineer: ProfessionType
+    actor: ProfessionType
+    cook: ProfessionType
+}
+
+export type QualityType = {
+    _id: string
+    name: string
+    color: string
+}
+
+export type QualitiesType = {
+    tedious: QualityType
+    strange: QualityType
+    buller: QualityType
+    alcoholic: QualityType
+    handsome: QualityType
+    uncertain: QualityType
+}
+
+export type UserType = {
+    _id: string
+    name: string
+    profession: ProfessionType
+    qualities: QualityType[]
+    completedMeetings: number
+    rate: number
+    bookmark: boolean
+}
+
+const qualities: QualitiesType = {
     tedious: {_id: "67rdca3eeb7f6fgeed471198", name: "Нудила", color: "primary"},
     strange: {_id: "67rdca3eeb7f6fgeed471100", name: "Странный", color: "secondary"},
     buller: {_id: "67rdca3eeb7f6fgeed4711012", name: "Троль", color: "success"},
@@ -9,7 +50,7 @@ const qualities = {
     uncertain: {_id: "67rdca3eeb7f6fgeed471103", name: "Неуверенный", color: "dark"},
 }
 
-const users = [
+const users: UserType[] = [
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",

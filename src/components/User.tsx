@@ -1,7 +1,7 @@
 import React from "react";
 import Bookmark from "./Bookmark";
 import Qualitie from "./Qualitie";
-import {UserType} from "./Users";
+import {UserType} from "../api/fake.api/user.api";
 
 
 type PropsType = {

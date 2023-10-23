@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import api from "./api";
 import Users from "./components/Users";
-import SearchStatus from "./components/SearchStatus";
 
 function App() {
 
@@ -22,18 +21,8 @@ function App() {
         )
     }
 
-    const renderPhase = (number: number) => {
-        const lastOne = Number(number.toString().slice(-1))
-        if (number > 4 && number < 15) return "человек тусанет"
-        if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанет"
-        if (lastOne === 1) return "человек тусанет"
-        return "человек тусанет"
-    }
-
-
     return (
         <div>
-            <SearchStatus length={users.length} renderPhase={renderPhase}/>
             <Users handleDelete={handleDelete} handleBookmark={handleBookmark} usersAll={users}/>
         </div>
     )
