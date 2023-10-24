@@ -6,9 +6,9 @@ type PropsType = {
     handleBookmark: () => void
 }
 
-function Bookmark(props: PropsType) {
+function Bookmark({status, handleBookmark}: PropsType) {
     return (
-        <i className={"bi bi-" + (props.status ? "bookmark-heart-fill" : "bookmark")} onClick={() => props.handleBookmark()}/>
+        <i className={"bi bi-" + (status ? "bookmark-heart-fill" : "bookmark")} onClick={() => handleBookmark()}/>
     )
 }
 

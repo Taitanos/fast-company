@@ -2,15 +2,22 @@ import React from "react";
 
 type PropsType = {
     length: number
-    renderPhase: (number: number) => "человек тусанет" | "человека тусанет"
 }
 
-function SearchStatus (props: PropsType) {
+const renderPhase = (number: number) => {
+    const lastOne = Number(number.toString().slice(-1))
+    if (number > 4 && number < 15) return "человек тусанет"
+    if ([2, 3, 4].indexOf(lastOne) >= 0) return "человека тусанет"
+    if (lastOne === 1) return "человек тусанет"
+    return "человек тусанет"
+}
+
+function SearchStatus ({length}: PropsType) {
     return (
         <>
             <h2>
-                <span className={"badge bg-" + (props.length > 0 ? "primary" : "danger")}>
-                    {props.length > 0 ? `${props.length} ${props.renderPhase(props.length)} с тобой сегодня` : "Никто с тобой не тусанет"}
+                <span className={"badge bg-" + (length > 0 ? "primary" : "danger")}>
+                    {length > 0 ? `${length} ${renderPhase(length)} с тобой сегодня` : "Никто с тобой не тусанет"}
                 </span>
             </h2>
         </>

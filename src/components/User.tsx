@@ -1,7 +1,7 @@
 import React from "react";
 import Bookmark from "./Bookmark";
 import Qualitie from "./Qualitie";
-import {UserType} from "./Users";
+import {UserType} from "../api/fake.api/user.api";
 
 
 type PropsType = {
@@ -10,25 +10,25 @@ type PropsType = {
     onChangeBookmark: (usersId: string) => void
 }
 
-function User (props:PropsType) {
+function User ({user, onDelete, onChangeBookmark}:PropsType) {
     return (
         <>
-            <tr key={props.user._id}>
-                <td>{props.user.name}</td>
+            <tr key={user._id}>
+                <td>{user.name}</td>
                 <td>
-                    {props.user.qualities.map(qual => (
+                    {user.qualities.map(qual => (
                         <Qualitie key={qual._id} qualName={qual.name} qualColor={qual.color}/>
                         ))}
                     </td>
-                <td>{props.user.profession.name}</td>
-                <td>{props.user.completedMeetings}</td>
-                <td>{props.user.rate}</td>
+                <td>{user.profession.name}</td>
+                <td>{user.completedMeetings}</td>
+                <td>{user.rate}</td>
                 <td><Bookmark
-                    status={props.user.bookmark}
-                    handleBookmark={()=> props.onChangeBookmark (props.user._id)}
+                    status={user.bookmark}
+                    handleBookmark={()=> onChangeBookmark (user._id)}
                     /></td>
                 <td>
-                    <button className={"btn btn-danger"} onClick={() => props.onDelete(props.user._id)}>Удалить
+                    <button className={"btn btn-danger"} onClick={() => onDelete(user._id)}>Удалить
                     </button>
                 </td>
             </tr>

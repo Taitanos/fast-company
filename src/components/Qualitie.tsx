@@ -7,10 +7,10 @@ type PropsType = {
     qualColor: string
 }
 
-function Qualitie (props: PropsType) {
+function Qualitie ({qualName, qualColor}: PropsType) {
     return (
-            <span className={"badge m-1 bg-" + props.qualColor}>
-                {props.qualName}
+            <span className={"badge m-1 bg-" + qualColor}>
+                {qualName}
             </span>
     )
 }

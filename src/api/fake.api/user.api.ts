@@ -1,21 +1,56 @@
-const professions = {
-    doctor: { _id: "67rdca3eeb7f6fgeed471818", name: "Доктор" },
-    waiter: { _id: "67rdca3eeb7f6fgeed471820", name: "Официант" },
-    physics: { _id: "67rdca3eeb7f6fgeed471814", name: "Физик" },
-    engineer: { _id: "67rdca3eeb7f6fgeed471822", name: "Инженер" },
-    actor: { _id: "67rdca3eeb7f6fgeed471824", name: "Актер" },
-    cook: { _id: "67rdca3eeb7f6fgeed471829", name: "Повар" }
-}
-const qualities = {
-    tedious: { _id: "67rdca3eeb7f6fgeed471198", name: "Нудила", color: "primary" },
-    strange: { _id: "67rdca3eeb7f6fgeed471100", name: "Странный", color: "secondary" },
-    buller: { _id: "67rdca3eeb7f6fgeed4711012", name: "Троль", color: "success" },
-    alcoholic: { _id: "67rdca3eeb7f6fgeed471101", name: "Алкоголик", color: "danger" },
-    handsome: { _id: "67rdca3eeb7f6fgeed471102", name: "Красавчик", color: "info" },
-    uncertain: { _id: "67rdca3eeb7f6fgeed471103", name: "Неуверенный", color: "dark" },
+import {professionsObject as professions} from "./professions.api";
+
+export type ProfessionType = {
+    [key: string]: string
+    _id: string
+    name: string
 }
 
-const users = [
+export type ProfessionsTypeObject = {
+    [key: string]: ProfessionType
+    doctor: ProfessionType
+    waiter: ProfessionType
+    physics: ProfessionType
+    engineer: ProfessionType
+    actor: ProfessionType
+    cook: ProfessionType
+}
+
+export type QualityType = {
+    _id: string
+    name: string
+    color: string
+}
+
+export type QualitiesType = {
+    tedious: QualityType
+    strange: QualityType
+    buller: QualityType
+    alcoholic: QualityType
+    handsome: QualityType
+    uncertain: QualityType
+}
+
+export type UserType = {
+    _id: string
+    name: string
+    profession: ProfessionType
+    qualities: QualityType[]
+    completedMeetings: number
+    rate: number
+    bookmark: boolean
+}
+
+const qualities: QualitiesType = {
+    tedious: {_id: "67rdca3eeb7f6fgeed471198", name: "Нудила", color: "primary"},
+    strange: {_id: "67rdca3eeb7f6fgeed471100", name: "Странный", color: "secondary"},
+    buller: {_id: "67rdca3eeb7f6fgeed4711012", name: "Троль", color: "success"},
+    alcoholic: {_id: "67rdca3eeb7f6fgeed471101", name: "Алкоголик", color: "danger"},
+    handsome: {_id: "67rdca3eeb7f6fgeed471102", name: "Красавчик", color: "info"},
+    uncertain: {_id: "67rdca3eeb7f6fgeed471103", name: "Неуверенный", color: "dark"},
+}
+
+const users: UserType[] = [
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",
@@ -125,6 +160,7 @@ const users = [
         bookmark: false
     },
 ]
+
 export function fetchAll() {
     return users
 }
