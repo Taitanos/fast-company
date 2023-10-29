@@ -1,6 +1,5 @@
 import React from "react";
 
-
 type PropsType = {
     status: boolean
     handleBookmark: () => void

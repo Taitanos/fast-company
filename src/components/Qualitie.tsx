@@ -1,7 +1,5 @@
 import React from "react";
 
-
-
 type PropsType = {
     qualName: string
     qualColor: string
