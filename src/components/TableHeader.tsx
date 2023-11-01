@@ -18,6 +18,11 @@ function TableHeader({onSort, selectedSort, columns}: PropsType) {
         }
     }
 
+    const renderSortArrow = (selectedSort: SortByType, currentPath: string) => {
+        return selectedSort.path === currentPath ? selectedSort.order === "asc" ?
+            <i className="bi bi-caret-down-fill"></i> : <i className="bi bi-caret-up-fill"></i> : "";
+    }
+
     return (
         <thead>
         <tr>
@@ -25,7 +30,7 @@ function TableHeader({onSort, selectedSort, columns}: PropsType) {
                 <th key={column}
                     onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined} {...{role: columns[column].path && "button"}}
                     scope={"col"}>
-                    {columns[column].name}
+                    {columns[column].name} {renderSortArrow(selectedSort, columns[column].path)}
                 </th>
             ))}
         </tr>

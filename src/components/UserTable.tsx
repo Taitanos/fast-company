@@ -1,9 +1,9 @@
 import React from "react";
 import {UserType} from "../api/fake.api/user.api";
 import {SortByType} from "./Users";
-import TableHeader from "./TableHeader";
-import TableBody from "./TableBody";
 import Bookmark from "./Bookmark";
+import QualitiesList from "./QualitiesList";
+import Table from "./Table";
 
 type PropsType = {
     onDelete: (usersId: string) => void
@@ -41,7 +41,7 @@ function UserTable({users, onDelete, onChangeBookmark, onSort, selectedSort}: Pr
 
     const columns = {
         name: {path: 'name', name: 'Имя'},
-        qualities: {name: 'Качество'},
+        qualities: {name: 'Качества', component: (user: UserType) => (<QualitiesList qualities={user.qualities}/>)},
         professions: {path: 'profession.name', name: 'Профессия'},
         completedMeetings: {
             path: 'completedMeetings', 
@@ -65,10 +65,7 @@ function UserTable({users, onDelete, onChangeBookmark, onSort, selectedSort}: Pr
     }
 
     return (
-        <table className={"table"}>
-            <TableHeader {...{onSort, selectedSort, columns}}/>
-            <TableBody {...{data: users, columns}}/>
-        </table>
+        <Table onSort={onSort} selectedSort={selectedSort} columns={columns} data={users}/>
     )
 }
 

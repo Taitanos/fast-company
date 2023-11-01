@@ -5,7 +5,7 @@ type PropsType = {
     qualColor: string
 }
 
-function Qualitie ({qualName, qualColor}: PropsType) {
+function Quality ({qualName, qualColor}: PropsType) {
     return (
             <span className={"badge m-1 bg-" + qualColor}>
                 {qualName}
@@ -13,4 +13,4 @@ function Qualitie ({qualName, qualColor}: PropsType) {
     )
 }
 
-export default Qualitie;
+export default Quality;
