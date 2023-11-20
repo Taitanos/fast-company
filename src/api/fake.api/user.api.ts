@@ -31,7 +31,7 @@ export type QualitiesType = {
     uncertain: QualityType
 }
 
-export type UserType = {
+export type UsersType = {
     _id: string
     name: string
     profession: ProfessionType
@@ -50,7 +50,7 @@ const qualities: QualitiesType = {
     uncertain: {_id: "67rdca3eeb7f6fgeed471103", name: "Неуверенный", color: "dark"},
 }
 
-const users: UserType[] = [
+const users: UsersType[] = [
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",
@@ -167,7 +167,14 @@ const fetchAll = () => new Promise((resolve) => {
     }, 2000)
 });
 
+const getById = (id: string) => new Promise((resolve) => {
+    window.setTimeout(function () {
+        resolve(users.find((users) => users._id === id))
+    }, 1000)
+})
+
 
 export default {
-    fetchAll
+    fetchAll,
+    getById,
 };
