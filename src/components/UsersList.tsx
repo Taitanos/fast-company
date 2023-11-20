@@ -3,7 +3,7 @@ import api from "../api";
 import Pagination from "./Pagination";
 import {paginate} from "../utils/paginate";
 import GroupList from "./GroupList";
-import {ProfessionType, ProfessionsTypeObject, UserType} from "../api/fake.api/user.api";
+import {ProfessionType, ProfessionsTypeObject, UsersType} from "../api/fake.api/user.api";
 import SearchStatus from "./SearchStatus";
 import UserTable from "./UserTable";
 import _ from "lodash"
@@ -14,14 +14,14 @@ export type SortByType = {
     order: "asc" | "desc"
 }
 
-function Users() {
+function UsersList() {
 
     const pageSize = 4
     const [currentPage, setCurrentPage] = useState<number>(1)
     const [professions, setProfessions] = useState<undefined | ProfessionsTypeObject | ProfessionType[]>(undefined)
     const [selectedProf, setSelectedProf] = useState<undefined | ProfessionType>(undefined)
     const [sortBy, setSortBy] = useState<SortByType>({path: 'name', order: 'asc'})
-    const [users, setUsers] = useState<UserType[] | undefined>(undefined)
+    const [users, setUsers] = useState<UsersType[] | undefined>(undefined)
 
     useEffect(() => {
         api.users.fetchAll().then((data:any) => setUsers(data))
@@ -37,14 +37,14 @@ function Users() {
 
     const handleDelete = (usersId: string) => {
         if (users) {
-            setUsers(users.filter((user: UserType) => user._id !== usersId))
+            setUsers(users.filter((user: UsersType) => user._id !== usersId))
         }
     }
 
     const handleBookmark = (usersId: string) => {
         if (users) {
             setUsers(
-                users.map((user: UserType) => {
+                users.map((user: UsersType) => {
                     if (user._id === usersId) {
                         return {...user, bookmark: !user.bookmark}
                     }
@@ -107,4 +107,4 @@ function Users() {
     return <>"loading..."</>
 }
 
-export default Users;
+export default UsersList;

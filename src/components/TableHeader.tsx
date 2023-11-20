@@ -1,5 +1,5 @@
 import React from "react";
-import {SortByType} from "./Users";
+import {SortByType} from "./UsersList";
 import {ColumnsType} from "./UserTable";
 
 type PropsType = {

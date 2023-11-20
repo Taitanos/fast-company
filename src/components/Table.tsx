@@ -1,15 +1,15 @@
 import React, {ReactNode} from "react";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import {SortByType} from "./Users";
+import {SortByType} from "./UsersList";
 import {ColumnsType} from "./UserTable";
-import {UserType} from "../api/fake.api/user.api";
+import {UsersType} from "../api/fake.api/user.api";
 
 type PropsType = {
     onSort: (item: SortByType) => void
     selectedSort: SortByType
     columns: ColumnsType
-    data: UserType[]
+    data: UsersType[]
     children?: ReactNode[]
 }
 

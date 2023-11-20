@@ -1,16 +1,16 @@
 import React from "react";
-import {UserType} from "../api/fake.api/user.api";
+import {UsersType} from "../api/fake.api/user.api";
 import {ColumnsType} from "./UserTable";
 import _ from "lodash";
 
 type PropsType = {
-    data: UserType[]
+    data: UsersType[]
     columns: ColumnsType
 }
 
 function TableBody({data, columns}: PropsType) {
 
-    const renderContent = (item: UserType, column: string) => {
+    const renderContent = (item: UsersType, column: string) => {
         if (columns[column].component) {
             const component = columns[column].component
             if (typeof component === "function") {
