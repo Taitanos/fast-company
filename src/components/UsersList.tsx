@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import api from "../api";
 import Pagination from "./Pagination";
 import {paginate} from "../utils/paginate";
@@ -22,6 +22,7 @@ function UsersList() {
     const [selectedProf, setSelectedProf] = useState<undefined | ProfessionType>(undefined)
     const [sortBy, setSortBy] = useState<SortByType>({path: 'name', order: 'asc'})
     const [users, setUsers] = useState<UsersType[] | undefined>(undefined)
+    const [searchQuery, setSearchQuery] = useState<string>("")
 
     useEffect(() => {
         api.users.fetchAll().then((data:any) => setUsers(data))
@@ -33,7 +34,7 @@ function UsersList() {
 
     useEffect(() => {
         setCurrentPage(1)
-    }, [selectedProf])
+    }, [selectedProf, searchQuery])
 
     const handleDelete = (usersId: string) => {
         if (users) {
@@ -55,6 +56,7 @@ function UsersList() {
     }
 
     const handleProfessionSelect = (item: ProfessionType) => {
+        if (searchQuery !== "") setSearchQuery("");
         setSelectedProf(item)
     }
 
@@ -66,9 +68,21 @@ function UsersList() {
         setSortBy(item)
     }
 
+    const handleSearchQuery: React.ChangeEventHandler<HTMLInputElement> = ({target}) => {
+        setSelectedProf(undefined)
+        setSearchQuery(target.value)
+    }
+
     if (users) {
 
-        const filteredUsers = selectedProf ? users.filter((user) => user.profession.name === selectedProf.name) : users
+        const filteredUsers = searchQuery ?
+             users.filter((user) => user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1)
+            : selectedProf
+            ? users.filter(
+                (user) => user.profession.name === selectedProf.name
+            )
+            : users
+
         const count = filteredUsers.length
 
         const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
@@ -76,6 +90,7 @@ function UsersList() {
         const usersCrop = paginate(sortedUsers, currentPage, pageSize)
 
         const clearFilter = () => {
+            setSearchQuery("")
             setSelectedProf(undefined)
         }
 
@@ -92,6 +107,7 @@ function UsersList() {
                 )}
                 <div className={"d-flex flex-column"}>
                     <SearchStatus length={count}/>
+                    <input type={"text"} name={"searchQuery"} placeholder={"Search..."} onChange={handleSearchQuery} value={searchQuery}/>
                     {count > 0 && (
                         <UserTable users={usersCrop} onDelete={handleDelete} onChangeBookmark={handleBookmark}
                                    onSort={handleSort} selectedSort={sortBy}/>
