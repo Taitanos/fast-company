@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import api from "../api";
-import {UsersType} from "../api/fake.api/user.api";
-import QualitiesList from "./QualitiesList";
+import api from "../../../api";
+import {UsersType} from "../../../api/fake.api/user.api";
+import QualitiesList from "../../ui/qualities/QualitiesList";
 import {useNavigate} from "react-router-dom";
 
 type PropsType = {

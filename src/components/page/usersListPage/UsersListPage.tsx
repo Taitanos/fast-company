@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import api from "../api";
-import Pagination from "./Pagination";
-import {paginate} from "../utils/paginate";
-import GroupList from "./GroupList";
-import {ProfessionType, ProfessionsTypeObject, UsersType} from "../api/fake.api/user.api";
-import SearchStatus from "./SearchStatus";
-import UserTable from "./UserTable";
+import api from "../../../api";
+import Pagination from "../../common/Pagination";
+import {paginate} from "../../../utils/paginate";
+import GroupList from "../../common/GroupList";
+import {ProfessionType, ProfessionsTypeObject, UsersType} from "../../../api/fake.api/user.api";
+import SearchStatus from "../../ui/SearchStatus";
+import UserTable from "../../ui/UserTable";
 import _ from "lodash"
 
 
@@ -14,7 +14,7 @@ export type SortByType = {
     order: "asc" | "desc"
 }
 
-function UsersList() {
+function UsersListPage() {
 
     const pageSize = 4
     const [currentPage, setCurrentPage] = useState<number>(1)
@@ -123,4 +123,4 @@ function UsersList() {
     return <>"loading..."</>
 }
 
-export default UsersList;
+export default UsersListPage;
