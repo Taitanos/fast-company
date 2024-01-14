@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {validator} from '../../utils/validator.js';
 import TextField from '../common/form/TextField';
 
-export type PropsType = {
+type PropsType = {
     email: string
     password: string
 }
