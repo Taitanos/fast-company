@@ -1,17 +1,9 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import {validator} from '../../utils/validator.js';
 import TextField from '../common/form/TextField';
+import {ErrorsType, PropsType} from './LoginForm';
 
-export type PropsType = {
-    email: string
-    password: string
-}
-
-export type ErrorsType = {
-    [key: string]: string
-}
-
-function LoginForm() {
+function RegisterForm () {
 
     const [data, setData] = useState<PropsType>({email: '', password: ''})
     const [errors, setErrors] = useState<ErrorsType>({})
@@ -66,4 +58,4 @@ function LoginForm() {
     )
 }
 
-export default LoginForm;
+export default RegisterForm;
