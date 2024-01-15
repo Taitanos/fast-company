@@ -6,6 +6,12 @@ import api from '../../api';
 import {ProfessionsTypeObject, ProfessionType} from '../../api/fake.api/user.api';
 import SelectField from '../common/form/SelectField';
 import RadioField from '../common/form/RadioField';
+import MultiSelectField from '../common/form/MultiSelectField';
+
+export type QualityType = {
+    name: string
+    value: string
+}
 
 type DataType = {
     [key: string]: string | any
@@ -13,6 +19,7 @@ type DataType = {
     password: string
     profession: string
     sex: string
+    qualities: Array<QualityType>
 }
 
 function RegisterForm() {
@@ -22,12 +29,15 @@ function RegisterForm() {
         password: '',
         profession: '',
         sex: 'male',
+        qualities: [],
     })
     const [professions, setProfessions] = useState<undefined | ProfessionsTypeObject | ProfessionType[]>(undefined)
+    const [qualities, setQualities] = useState({})
     const [errors, setErrors] = useState<ErrorsType>({})
 
     useEffect(() => {
         api.professions.fetchAll().then((data: any) => setProfessions(data))
+        api.qualities.fetchAll().then((data: any) => setQualities(data))
     }, [])
 
     useEffect(() => {
@@ -63,8 +73,15 @@ function RegisterForm() {
 
     const isValid = Object.keys(errors).length === 0
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setData((prevState) => ({...prevState, [e.target.name]: e.target.value}))
+    const handleChange = ({target}: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setData((prevState) => ({...prevState, [target.name]: target.value}))
+    }
+
+    const handleMultiSelectChange = (target: QualityType) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -110,6 +127,13 @@ function RegisterForm() {
                 value={data.sex}
                 name={'sex'}
                 onChange={handleChange}
+            />
+            <MultiSelectField
+                options={qualities}
+                onChange={handleMultiSelectChange}
+                name={"qualities"}
+                defaultValue={data.qualities}
+                label={"Введите ваши качества"}
             />
             <button className={'btn btn-primary w-100 mx-auto'} type={'submit'} disabled={!isValid}>Submit</button>
         </form>
