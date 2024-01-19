@@ -1,20 +1,21 @@
 import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
-import {validator} from '../../utils/validator.js';
+import {validator} from '../../utils/validator';
+import CheckBoxField from '../common/form/CheckBoxField';
 import TextField from '../common/form/TextField';
+import { LicenseType } from './RegisterForm';
 
 type PropsType = {
+    [key: string]: string | boolean
     email: string
     password: string
+    stayOn: false
 }
 
-export type ErrorsType = {
-    [key: string]: string
-}
 
 function LoginForm() {
 
-    const [data, setData] = useState<PropsType>({email: '', password: ''})
-    const [errors, setErrors] = useState<ErrorsType>({})
+    const [data, setData] = useState<PropsType>({email: '', password: '',  stayOn: false})
+    const [errors, setErrors] = useState<any>({})
 
     useEffect(() => {
         validate()
@@ -48,6 +49,13 @@ function LoginForm() {
         setData((prevState) => ({...prevState, [e.target.name]: e.target.value}))
     }
 
+    const handleCheckBoxChange = (target: LicenseType) => {
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }));
+    }
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const isValid = validate()
@@ -61,6 +69,9 @@ function LoginForm() {
                        error={errors.email}/>
             <TextField label={'password'} type={'password'} name={'password'} value={data.password}
                        onChange={handleChange} error={errors.password}/>
+            <CheckBoxField value={data.stayOn} onChange={handleCheckBoxChange} name={"stayOn"}>
+                Оставаться в системе
+            </CheckBoxField>
             <button className={'btn btn-primary w-100 mx-auto'} type={'submit'} disabled={!isValid}>Submit</button>
         </form>
     )

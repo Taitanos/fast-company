@@ -2,6 +2,7 @@ import React from 'react';
 import {ProfessionsTypeObject, ProfessionType} from '../../../api/fake.api/user.api';
 
 type PropsType = {
+    name: string
     label: string
     value: string
     defaultOption: string
@@ -10,7 +11,7 @@ type PropsType = {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-function SelectField ({label, value, defaultOption, options, error, onChange }: PropsType) {
+function SelectField ({name, label, value, defaultOption, options, error, onChange }: PropsType) {
 
     const getInputClasses = () => {
         return 'form-select' + (error ? ' is-invalid' : '')
@@ -25,11 +26,11 @@ function SelectField ({label, value, defaultOption, options, error, onChange }: 
 
     return (
         <div className={'mb-4'}>
-            <label htmlFor={'validationCustom04'} className={'form-label'}>{label}</label>
+            <label htmlFor={name} className={'form-label'}>{label}</label>
             <select
                 className={getInputClasses()}
-                id={'validationCustom04'}
-                name={'profession'}
+                id={name}
+                name={name}
                 value={value}
                 onChange={onChange}
             >
