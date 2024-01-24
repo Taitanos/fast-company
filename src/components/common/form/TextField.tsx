@@ -2,10 +2,10 @@ import React, {ChangeEvent, useState} from 'react';
 
 type PropsType = {
     label: string
-    type: string
+    type?: string
     name: string
     value: string
-    error: string
+    error?: string
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 

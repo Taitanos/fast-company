@@ -1,9 +1,26 @@
 import {professionsObject as professions} from "./professions.api";
 
+// Profession Type
+
+
 export type ProfessionType = {
     [key: string]: string
+    name: string
+    _id: string
+}
+
+export type QualityType = {
     _id: string
     name: string
+    color: string
+}
+export type QualitiesType = {
+    tedious: QualityType
+    strange: QualityType
+    buller: QualityType
+    alcoholic: QualityType
+    handsome: QualityType
+    uncertain: QualityType
 }
 
 export type ProfessionsTypeObject = {
@@ -16,41 +33,51 @@ export type ProfessionsTypeObject = {
     cook: ProfessionType
 }
 
-export type QualityType = {
-    _id: string
-    name: string
-    color: string
-}
-
-export type QualitiesType = {
-    tedious: QualityType
-    strange: QualityType
-    buller: QualityType
-    alcoholic: QualityType
-    handsome: QualityType
-    uncertain: QualityType
-}
-
 export type UsersType = {
     _id: string
     name: string
     profession: ProfessionType
-    qualities: QualityType[]
+    qualities: Array<QualityType>
     completedMeetings: number
     rate: number
     bookmark: boolean
 }
 
 const qualities: QualitiesType = {
-    tedious: {_id: "67rdca3eeb7f6fgeed471198", name: "Нудила", color: "primary"},
-    strange: {_id: "67rdca3eeb7f6fgeed471100", name: "Странный", color: "secondary"},
-    buller: {_id: "67rdca3eeb7f6fgeed4711012", name: "Троль", color: "success"},
-    alcoholic: {_id: "67rdca3eeb7f6fgeed471101", name: "Алкоголик", color: "danger"},
-    handsome: {_id: "67rdca3eeb7f6fgeed471102", name: "Красавчик", color: "info"},
-    uncertain: {_id: "67rdca3eeb7f6fgeed471103", name: "Неуверенный", color: "dark"},
-}
+    tedious: {
+        _id: "67rdca3eeb7f6fgeed471198",
+        name: "Нудила",
+        color: "primary"
+    },
+    strange: {
+        _id: "67rdca3eeb7f6fgeed471100",
+        name: "Странный",
+        color: "secondary"
+    },
+    buller: {
+        _id: "67rdca3eeb7f6fgeed4711012",
+        name: "Троль",
+        color: "success"
+    },
+    alcoholic: {
+        _id: "67rdca3eeb7f6fgeed471101",
+        name: "Алкоголик",
+        color: "danger"
+    },
+    handsome: {
+        _id: "67rdca3eeb7f6fgeed471102",
+        name: "Красавчик",
+        color: "info"
+    },
+    uncertain: {
+        _id: "67rdca3eeb7f6fgeed471103",
+        name: "Неуверенный",
+        color: "dark"
+    },
 
-const users: UsersType[] = [
+};
+
+const users: Array<UsersType> = [
     {
         _id: "67rdca3eeb7f6fgeed471815",
         name: "Джон Дориан",
@@ -159,22 +186,57 @@ const users: UsersType[] = [
         rate: 5,
         bookmark: false
     },
-]
+];
 
-const fetchAll = () => new Promise((resolve) => {
-    window.setTimeout(function () {
-        resolve(users);
-    }, 2000)
-});
+// const fetchAll = () => new Promise((resolve) => {
+//     window.setTimeout(function () {
+//         resolve(users);
+//     }, 2000)
+// });
+//
+// const getById = (id: string) => new Promise((resolve) => {
+//     window.setTimeout(function () {
+//         resolve(users.find((user) => user._id === id))
+//     }, 1000)
+// })
+//
+// export default {
+//     fetchAll,
+//     getById
+// };
 
-const getById = (id: string) => new Promise((resolve) => {
-    window.setTimeout(function () {
-        resolve(users.find((users) => users._id === id))
-    }, 1000)
-})
 
+if (!localStorage.getItem("users")) {
+    localStorage.setItem("users", JSON.stringify(users));
+}
 
+const fetchAll = () =>
+    new Promise((resolve) => {
+        window.setTimeout(function () {
+            resolve(JSON.parse(localStorage.getItem("users") || "{}"));
+        }, 2000);
+    });
+const update = (id: any, data: any) =>
+    new Promise((resolve) => {
+        const users = JSON.parse(localStorage.getItem("users") || "{}");
+        const userIndex = users.findIndex((u: UsersType) => u._id === id);
+        users[userIndex] = { ...users[userIndex], ...data };
+        localStorage.setItem("users", JSON.stringify(users));
+        resolve(users[userIndex]);
+    });
+
+const getById = (id: any) =>
+    new Promise((resolve) => {
+        window.setTimeout(function () {
+            resolve(
+                JSON.parse(localStorage.getItem("users") || "{}").find(
+                    (user: UsersType) => user._id === id
+                )
+            );
+        }, 1000);
+    });
 export default {
     fetchAll,
     getById,
+    update
 };

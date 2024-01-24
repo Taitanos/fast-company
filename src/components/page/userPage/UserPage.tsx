@@ -1,39 +1,44 @@
 import React, {useEffect, useState} from "react";
 import api from "../../../api";
 import {UsersType} from "../../../api/fake.api/user.api";
-import QualitiesList from "../../ui/qualities/QualitiesList";
-import {useNavigate} from "react-router-dom";
+
+
+import QualitiesCard from "../../ui/QualitiesCard";
+import MeetingsCard from "../../ui/MeetingsCard";
+import Comments from "../../ui/Comments";
+import UserCard from '../../ui/UserCard';
 
 type PropsType = {
-    userId: string
+    userId: any
 }
 
-function UserPage ({userId}: PropsType) {
-    const history = useNavigate()
-    const [user, setUser] = useState <undefined | UsersType>();
+const UserPage: React.FC<PropsType> = ({userId}) => {
+
+    const [user, setUser] = useState<undefined | UsersType>();
 
     useEffect(() => {
         api.users.getById(userId).then((data: any) => setUser(data))
     }, [])
 
-    const handleClick = () => {
-        history("/users")
-    }
 
     if (user) {
         return (
-            <div>
-                <h1>{user.name}</h1>
-                <h2>Профессия : {user.profession.name}</h2>
-                <QualitiesList qualities={user.qualities}/>
-                <p>Встреч проведено: {user.completedMeetings}</p>
-                <h2>Оценка: {user.rate}</h2>
-                <button onClick={handleClick}>Все пользователи</button>
+            <div className={"container"}>
+                <div className={"row gutters-sm"}>
+                    <div className={"col-md mb-3"}>
+                        <UserCard user={user}/>
+                        <QualitiesCard data={user.qualities}/>
+                        <MeetingsCard value={user.completedMeetings}/>
+                    </div>
+                    <div className="col-md-8">
+                        <Comments />
+                    </div>
+                </div>
             </div>
-        )
+        );
     } else {
-        return <h1>Loading...</h1>
+        return <h1>loading...</h1>
     }
-}
+};
 
 export default UserPage;

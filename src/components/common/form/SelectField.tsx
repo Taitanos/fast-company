@@ -1,28 +1,27 @@
-import React from 'react';
-import {ProfessionsTypeObject, ProfessionType} from '../../../api/fake.api/user.api';
+import React from "react";
+import {ProfessionsTypeObject, ProfessionType} from "../../../api/fake.api/user.api";
 
 type PropsType = {
-    name: string
-    label: string
+    label?: string
     value: string
-    defaultOption: string
-    options: undefined | ProfessionsTypeObject | ProfessionType[]
-    error: string
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+    defaultOption: string
+    options: Array<ProfessionType> | ProfessionsTypeObject | undefined | any
+    error: string
+    name: string
 }
 
-function SelectField ({name, label, value, defaultOption, options, error, onChange }: PropsType) {
+const SelectField: React.FC<PropsType> = ({label, value, onChange, defaultOption, options, error, name}) => {
 
     const getInputClasses = () => {
-        return 'form-select' + (error ? ' is-invalid' : '')
+        return "form-select " + (value === "" ? "is-invalid" : "is-valid");
     }
 
-    const optionsArray = !Array.isArray(options) && typeof(options) === 'object'
-        ? Object.keys(options).map(optionName => ({
+    const optionsArray = !Array.isArray(options) && typeof options === "object" ?
+        Object.keys(options).map(optionName => ({
             name: options[optionName].name,
-            value:options[optionName]._id
-        }))
-        : options
+            value: options[optionName]._id
+        })) : options
 
     return (
         <div className={'mb-4'}>
@@ -34,19 +33,21 @@ function SelectField ({name, label, value, defaultOption, options, error, onChan
                 value={value}
                 onChange={onChange}
             >
-                <option disabled value="">{defaultOption}</option>
+                <option disabled value={''}>{defaultOption}</option>
                 {
-                    optionsArray && optionsArray.map(option => <option
-                        value={option.value}
-                        key={option.value}
-                    >
-                        {option.name}
-                    </option>)
+                    optionsArray && optionsArray.map((option: any) => <option
+                            key={option.value}
+                            value={option.value}>
+                            {option.name}
+                        </option>
+                    )
                 }
             </select>
-            {error && <div className="invalid-feedback">
-                {error}
-            </div>}
+
+            {error ?
+                <div className={'invalid-feedback'}>
+                    {error}
+                </div> : <div className={'valid-feedback'}>Готово!</div>}
         </div>
     )
 }
