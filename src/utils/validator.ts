@@ -2,11 +2,16 @@ export function validator (data: any, config: any) {
     const errors: any = {}
 
     function validate (validateMethod: any, data: string, config: any) {
-        let statusValidate
+        let statusValidate = false;
         switch (validateMethod) {
-            case "isRequired":
-                statusValidate = data.trim() === ''
-                break
+            case "isRequired": {
+                if (typeof data === "boolean") {
+                    statusValidate = !data
+                } else {
+                    statusValidate = data.trim() === "";
+                }
+                break;
+            }
             case "isEmail": {
                 const emailRegExp = /^\S+@\S+\.\S+$/g
                 statusValidate = !emailRegExp.test(data)
@@ -26,7 +31,7 @@ export function validator (data: any, config: any) {
                 statusValidate = data.length < config.data
                 break
             default:
-                break
+                return "Invalid validation method";
         }
         if (statusValidate) return config.message
     }

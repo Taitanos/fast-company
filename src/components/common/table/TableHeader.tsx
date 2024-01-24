@@ -1,6 +1,6 @@
 import React from "react";
-import {SortByType} from "./UsersList";
-import {ColumnsType} from "./UserTable";
+import {SortByType} from "../../page/usersListPage/UsersListPage";
+import {ColumnsType} from "../../ui/UserTable";
 
 type PropsType = {
     onSort: (item: SortByType) => void

@@ -1,9 +1,9 @@
 import React from "react";
-import {UsersType} from "../api/fake.api/user.api";
-import {SortByType} from "./UsersList";
-import Bookmark from "./Bookmark";
-import QualitiesList from "./QualitiesList";
-import Table from "./Table";
+import {UsersType} from "../../api/fake.api/user.api";
+import {SortByType} from "../page/usersListPage/UsersListPage";
+import Bookmark from "../common/Bookmark";
+import Qualities from './qualities';
+import Table from '../common/table';
 import {Link} from "react-router-dom";
 
 type PropsType = {
@@ -51,7 +51,7 @@ function UserTable({users, onDelete, onChangeBookmark, onSort, selectedSort}: Pr
             name: 'Имя',
             component: (user: UsersType) => <Link to={`${user._id}`}>{user.name}</Link>
         },
-        qualities: {name: 'Качества', component: (user: UsersType) => (<QualitiesList qualities={user.qualities}/>)},
+        qualities: {name: 'Качества', component: (user: UsersType) => (<Qualities qualities={user.qualities}/>)},
         professions: {path: 'profession.name', name: 'Профессия'},
         completedMeetings: {path: 'completedMeetings',name: 'Встретился, раз'},
         rate: {path: 'rate', name: 'Оценка'},

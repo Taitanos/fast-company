@@ -1,5 +1,5 @@
 import React from "react";
-import {ProfessionsTypeObject, ProfessionType} from "../api/fake.api/user.api";
+import {ProfessionsTypeObject, ProfessionType} from "../../api/fake.api/user.api";
 
 type PropsType = {
     items: ProfessionsTypeObject | ProfessionType[]
